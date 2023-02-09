@@ -1,47 +1,65 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+const express = require('express');
+const mongoose = require('mongoose');
 
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost/name-app", {
+mongoose.connect('mongodb://localhost/linkedin-bootcamp-connect', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 });
 
-// Use body-parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Define the Name model
-const Name = mongoose.model("Name", {
-    fullName: String
+// Define the User schema
+const userSchema = new mongoose.Schema({
+    fullName: String,
+    linkedinLink: String,
 });
 
-// Render the form
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/views/index.html");
-});
+const User = mongoose.model('User', userSchema);
 
-// Handle form submissions
-app.post("/names", (req, res) => {
-    const name = new Name({
-        fullName: req.body.fullName
+// Route to add a new user
+app.post('/users', async (req, res) => {
+    const user = new User({
+        fullName: req.body.fullName,
+        linkedinLink: req.body.linkedinLink,
     });
-    name
-        .save()
-        .then(() => {
-            res.redirect("/");
-        })
-        .catch(error => {
-            console.log(error);
-        });
+
+    try {
+        await user.save();
+        res.status(201).send();
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+// Route to remove a user
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const user = await User.findByIdAndRemove(req.params.id);
+        if (!user) {
+            return res.status(404).send();
+        }
+        res.status(200).send();
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// Route to fetch the list of users
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.send(users);
+    } catch (error) {
+        res.status(500).send(error);
+    }
 });
 
 // Start the server
-app.listen(3000, () => {
-    console.log("Server started on http://localhost:3000");
+app.listen(3001, () => {
+    console.log('Server started on port 3001');
 });
+
+
 
 
