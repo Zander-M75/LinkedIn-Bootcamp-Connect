@@ -1,0 +1,16 @@
+{
+  "name": "linkedin-bootcamp-connect",
+  "version": "1.0.0",
+  "description": "A simple application that takes in a person's full name and links to their LinkedIn profile.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.10.6"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
