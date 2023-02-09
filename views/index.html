@@ -1,44 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="Description" content="Enter your description here" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../public/css/style.css">
-    <title>Bootcamp Connect</title>
+    <title>LinkedIn Bootcamp Connect</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .header {
+            background-color: blue;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            border: 2px solid lightblue;
+            padding: 20px;
+        }
+
+        .user-card {
+            margin: 20px;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Name App</h1>
-    <form action="/names" method="post">
-        <div>
-            <label for="fullName">Full Name:</label>
-            <input type="text" id="fullName" name="fullName">
-        </div>
-        <div>
-            <label for="linkedIn">LinkedIn:</label>
-            <input type="text" id="linkedIn" name="linkedIn">
-        </div>
-        <button type="submit">Submit</button>
-    </form>
-    <h2>Name List</h2>
-    <ul>
-        <% names.forEach(name=> { %>
-            <li><a href="<%= name.linkedIn %>">
-                    <%= name.fullName %>
-                </a></li>
-            <% }); %>
-    </ul>
+    <div class="header">
+        <h1>LinkedIn Bootcamp Connect</h1>
+    </div>
+    <div class="form-container">
+        <form id="add-user-form">
+            <div class="form-group">
+                <label for="full-name-input">Full Name:</label>
+                <input type="text" id="full-name-input" name="fullName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="linkedin-link-input">LinkedIn Link:</label>
+                <input type="text" id="linkedin-link-input" name="linkedinLink" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <h2>Current Users:</h2>
+    <div id="user-list" class="row">
+        <!-- User cards will be populated here -->
+    </div>
+    <!-- Example user card -->
+    <div id="user-card-1" class="col-4 user-card">
+        <h4>Example User</h4>
+        <p><a href="#">linkedin.com/example-user</a></p>
+        <button id="remove-user-button-1" class="btn btn-danger">Remove My Info</button>
+    </div>
 
+    <script src="../public/js/index.js"></script>
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>
