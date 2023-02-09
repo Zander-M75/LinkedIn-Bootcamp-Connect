@@ -1,43 +1,47 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
 const app = express();
 
-mongoose.connect('mongodb://localhost/name-app', {
+// Connect to MongoDB
+mongoose.connect("mongodb://localhost/name-app", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-const nameSchema = new mongoose.Schema({
+// Use body-parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Define the Name model
+const Name = mongoose.model("Name", {
     fullName: String
 });
 
-const Name = mongoose.model('Name', nameSchema);
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// Render the form
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/views/index.html");
 });
 
-app.post('/names', (req, res) => {
-    const fullName = req.body.fullName;
-    if (fullName.split(" ").length !== 2) {
-        res.status(400).send('Please enter a valid full name, with only one space between the first and last name.');
-        return;
-    }
-
+// Handle form submissions
+app.post("/names", (req, res) => {
     const name = new Name({
-        fullName: fullName
+        fullName: req.body.fullName
     });
-
-    name.save((error) => {
-        if (error) {
-            res.status(500).send(error);
-        } else {
-            res.send('Name saved successfully');
-        }
-    });
+    name
+        .save()
+        .then(() => {
+            res.redirect("/");
+        })
+        .catch(error => {
+            console.log(error);
+        });
 });
 
+// Start the server
 app.listen(3000, () => {
-    console.log('Name app listening on port 3000!');
+    console.log("Server started on http://localhost:3000");
 });
+
 
