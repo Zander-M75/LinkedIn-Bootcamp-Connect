@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+// Render Homepage
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/views/index.html');
+});
+
 // Route to add a new user
 app.post('/users', async (req, res) => {
     const user = new User({
@@ -44,6 +49,8 @@ app.delete('/users/:id', async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+
 
 // Route to fetch the list of users
 app.get('/users', async (req, res) => {
